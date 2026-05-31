@@ -1450,9 +1450,9 @@ function downloadBanner(mode){
   const origCanvas=document.getElementById('bannerCanvas');
   ctx.drawImage(origCanvas,0,0,w,h);
   const link=document.createElement('a');
-  if(mode==='jpg'){link.download='ashiq_banner.jpg';link.href=hdCanvas.toDataURL('image/jpeg',0.97)}
-  else if(mode==='webp'){link.download='ashiq_banner.webp';link.href=hdCanvas.toDataURL('image/webp',0.97)}
-  else{link.download=mode==='4x'?'ashiq_banner_4x.png':'ashiq_banner.png';link.href=hdCanvas.toDataURL('image/png',1.0)}
+  if(mode==='jpg'){link.download='canvas.jpg';link.href=hdCanvas.toDataURL('image/jpeg',0.97)}
+  else if(mode==='webp'){link.download='canvas.webp';link.href=hdCanvas.toDataURL('image/webp',0.97)}
+  else{link.download=mode==='4x'?'canvas_4x.png':'canvas.png';link.href=hdCanvas.toDataURL('image/png',1.0)}
   link.click();
 }
 
