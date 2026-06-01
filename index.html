@@ -602,6 +602,7 @@ const state = {
   premEffect: 'none', premStrength: 50, cineBars: 'none',
   sharpenEnabled: false, hdrEnabled: false, noiseEnabled: false,
   theme: null,
+  cinemaPreset: null,
   headlineVisible: true, subtextVisible: true, extralineVisible: false,
 };
 
@@ -896,7 +897,6 @@ const templates = [
       ctx.restore();
     }
   },
-// function has been changed 
 
   // 10 — FIRE: intense flame gradient
   { name:'FIRE', bg:'linear-gradient(135deg,#1a0000,#ff4500,#ff8c00)',
@@ -1004,7 +1004,6 @@ templates.forEach((t,i)=>{
   templateGrid.appendChild(card);
 });
 // Template on/off toggle
-// defalt is off in this cinematic bus to this options 
 state.templateEnabled=false;
 document.getElementById('templateGrid').style.opacity='0.35';
 document.getElementById('templateGrid').style.pointerEvents='none';
@@ -1066,6 +1065,7 @@ CINEMA_PRESETS.forEach(p=>{
   btn.onclick=()=>{
     document.querySelectorAll('#cinemaGrid .cinema-btn').forEach(b=>b.style.outline='none');
     btn.style.outline='2px solid rgba(255,255,255,0.8)';
+    state.cinemaPreset=p;
     state.overlayColor=p.c1;state.overlayOpacity=45;
     document.getElementById('overlayColor').value=p.c1;
     document.getElementById('overlayOpacity').value=45;
@@ -1077,10 +1077,11 @@ document.getElementById('cinemaPresetsEnabled').onchange=e=>{
   const wrap=document.getElementById('cinemaPresetsWrap');
   wrap.style.opacity=e.target.checked?'1':'0.35';
   wrap.style.pointerEvents=e.target.checked?'auto':'none';
-  if(!e.target.checked)clearCinemaPreset();
+  if(!e.target.checked){state.cinemaPreset=null;clearCinemaPreset();}
 };
 function clearCinemaPreset(){
   document.querySelectorAll('#cinemaGrid .cinema-btn').forEach(b=>b.style.outline='none');
+  state.cinemaPreset=null;
   state.overlayColor='#000000';state.overlayOpacity=40;
   document.getElementById('overlayColor').value='#000000';
   document.getElementById('overlayOpacity').value=40;
@@ -1523,6 +1524,16 @@ function render(){
   if(state.image)drawFilteredImage(ctx,state.image,w,h);
   if(state.templateEnabled!==false)templates[state.template].draw(ctx,w,h,null,state);
   applyDarkEffect(ctx,w,h);
+  // Cinematic Color Preset overlay
+  if(state.cinemaPreset){
+    const p=state.cinemaPreset;
+    const g=ctx.createLinearGradient(0,0,w,h);
+    g.addColorStop(0,p.c1);g.addColorStop(0.5,p.c2);g.addColorStop(1,p.c3);
+    ctx.save();ctx.globalAlpha=0.55;ctx.fillStyle=g;ctx.fillRect(0,0,w,h);
+    // tinted overlay from preset's overlay property
+    ctx.globalAlpha=1;ctx.fillStyle=p.overlay;ctx.fillRect(0,0,w,h);
+    ctx.restore();
+  }
   applyLUT(ctx,w,h,state.lut,state.lutStrength);
   if(state.hdrEnabled)applyHDR(ctx,w,h);
   applyPremiumEffect(ctx,w,h);
