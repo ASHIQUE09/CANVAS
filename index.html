@@ -250,7 +250,7 @@ input[type="range"]::-webkit-slider-thumb:hover{transform:scale(1.3)}
       <div style="height:10px"></div>
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
         <label style="margin:0;font-size:0.76rem">Template Overlay</label>
-        <label class="toggle-switch"><input type="checkbox" id="templateEnabled" checked><span class="toggle-slider"></span></label>
+        <label class="toggle-switch"><input type="checkbox" id="templateEnabled"><span class="toggle-slider"></span></label>
       </div>
       <div class="template-grid" id="templateGrid"></div>
     </div>
@@ -263,20 +263,46 @@ input[type="range"]::-webkit-slider-thumb:hover{transform:scale(1.3)}
       <span class="toggle-arrow">▼</span>
     </div>
     <div class="section-body" id="themesBody" style="max-height:700px">
-      <div style="height:12px"></div>
-      <div class="themes-grid" id="themesGrid"></div>
+      <div style="height:8px"></div>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+        <label style="margin:0">Enable Themes</label>
+        <label class="toggle-switch"><input type="checkbox" id="themesEnabled"><span class="toggle-slider"></span></label>
+      </div>
+      <div id="themesGridWrap" style="opacity:0.35;pointer-events:none;transition:opacity 0.3s">
+        <div class="themes-grid" id="themesGrid"></div>
+        <button class="chip" style="width:100%;text-align:center;margin-bottom:8px;color:#ff6b6b;border-color:#ff6b6b" onclick="clearTheme()">✕ Clear Theme</button>
+      </div>
     </div>
   </div>
 
   <!-- 06 TEXT -->
-  <div class="section" style="padding-bottom:8px">
-    <div class="section-title">06 Text</div>
-    <label>Headline</label>
-    <input type="text" id="headline" placeholder="Your Bold Headline" value="YOUR BOLD HEADLINE">
-    <label>Subtext</label>
-    <textarea id="subtext" rows="2" placeholder="Descriptive subtext goes here…">Professional • Creative • Powerful</textarea>
-    <label>Extra Line</label>
-    <input type="text" id="extraline" placeholder="Optional third line…" value="">
+  <div class="section" style="padding-bottom:12px">
+    <div class="section-header" onclick="toggleSection(this)">
+      <div class="section-title" style="margin:0">06 Text</div>
+      <span class="toggle-arrow">▼</span>
+    </div>
+    <div class="section-body" id="textBody" style="max-height:900px">
+      <div style="height:8px"></div>
+      <!-- Headline -->
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px">
+        <label style="margin:0;font-size:0.78rem;font-weight:600;color:var(--text)">Headline</label>
+        <label class="toggle-switch" title="Show/Hide Headline"><input type="checkbox" id="headlineVisible" checked><span class="toggle-slider"></span></label>
+      </div>
+      <textarea id="headline" rows="2" placeholder="Your Bold Headline&#10;Line Two Here" style="resize:vertical;min-height:52px">YOUR BOLD HEADLINE</textarea>
+      <div style="font-size:0.64rem;color:var(--text-muted);margin-top:-6px;margin-bottom:8px">↵ Enter = new line break</div>
+      <!-- Subtext -->
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px">
+        <label style="margin:0;font-size:0.78rem;font-weight:600;color:var(--text)">Subtext</label>
+        <label class="toggle-switch" title="Show/Hide Subtext"><input type="checkbox" id="subtextVisible" checked><span class="toggle-slider"></span></label>
+      </div>
+      <textarea id="subtext" rows="2" placeholder="Descriptive subtext goes here…">Professional • Creative • Powerful</textarea>
+      <!-- Extra Line -->
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px">
+        <label style="margin:0;font-size:0.78rem;font-weight:600;color:var(--text)">Extra Line</label>
+        <label class="toggle-switch" title="Show/Hide Extra Line"><input type="checkbox" id="extralineVisible"><span class="toggle-slider"></span></label>
+      </div>
+      <input type="text" id="extraline" placeholder="Optional third line…" value="" style="opacity:0.4;pointer-events:none">
+    </div>
   </div>
 
   <!-- 07 TYPOGRAPHY -->
@@ -336,7 +362,11 @@ input[type="range"]::-webkit-slider-thumb:hover{transform:scale(1.3)}
     </div>
     <div class="section-body" id="effectBody" style="max-height:1000px">
       <div style="height:10px"></div>
-      <label>Text Effect</label>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+        <label style="margin:0">Text Effect</label>
+        <label class="toggle-switch"><input type="checkbox" id="textEffectEnabled"><span class="toggle-slider"></span></label>
+      </div>
+      <div id="textEffectWrap" style="opacity:0.35;pointer-events:none;transition:opacity 0.3s">
       <div class="effect-chips" id="effectChips">
         <button class="chip active" data-effect="none">None</button>
         <button class="chip" data-effect="shadow">Shadow</button>
@@ -350,6 +380,7 @@ input[type="range"]::-webkit-slider-thumb:hover{transform:scale(1.3)}
         <button class="chip" data-effect="gold">Gold</button>
         <button class="chip" data-effect="chrome">Chrome</button>
         <button class="chip" data-effect="plasma">Plasma</button>
+      </div>
       </div>
       <label>Dark / Vignette</label>
       <div class="effect-chips" id="darkChips">
@@ -401,8 +432,14 @@ input[type="range"]::-webkit-slider-thumb:hover{transform:scale(1.3)}
         <button class="lut-btn" data-lut="matrix">Matrix</button>
       </div>
       <div class="range-row"><label>Grade Intensity</label><input type="range" id="lutStrength" min="0" max="100" value="60"><span class="range-val" id="lutStrengthVal">60%</span></div>
-      <label>Cinematic Color Presets</label>
-      <div class="cinema-grid" id="cinemaGrid"></div>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;margin-top:4px">
+        <label style="margin:0">Cinematic Color Presets</label>
+        <label class="toggle-switch"><input type="checkbox" id="cinemaPresetsEnabled"><span class="toggle-slider"></span></label>
+      </div>
+      <div id="cinemaPresetsWrap" style="opacity:0.35;pointer-events:none;transition:opacity 0.3s">
+        <div class="cinema-grid" id="cinemaGrid"></div>
+        <button class="chip" style="width:100%;text-align:center;margin-bottom:8px;color:#ff6b6b;border-color:#ff6b6b" onclick="clearCinemaPreset()">✕ Reset Overlay</button>
+      </div>
     </div>
   </div>
 
@@ -565,6 +602,7 @@ const state = {
   premEffect: 'none', premStrength: 50, cineBars: 'none',
   sharpenEnabled: false, hdrEnabled: false, noiseEnabled: false,
   theme: null,
+  headlineVisible: true, subtextVisible: true, extralineVisible: false,
 };
 
 // ─── Themes ───────────────────────────────────────────────────────────────
@@ -858,6 +896,7 @@ const templates = [
       ctx.restore();
     }
   },
+// function has been changed 
 
   // 10 — FIRE: intense flame gradient
   { name:'FIRE', bg:'linear-gradient(135deg,#1a0000,#ff4500,#ff8c00)',
@@ -965,7 +1004,10 @@ templates.forEach((t,i)=>{
   templateGrid.appendChild(card);
 });
 // Template on/off toggle
-state.templateEnabled=true;
+// defalt is off in this cinematic bus to this options 
+state.templateEnabled=false;
+document.getElementById('templateGrid').style.opacity='0.35';
+document.getElementById('templateGrid').style.pointerEvents='none';
 document.getElementById('templateEnabled').onchange=e=>{
   state.templateEnabled=e.target.checked;
   const grid=document.getElementById('templateGrid');
@@ -984,6 +1026,8 @@ THEMES.forEach(th=>{
   themesGrid.appendChild(card);
 });
 function applyTheme(th){state.headlineColor=th.hl;state.subtextColor=th.sub;state.overlayColor=th.overlay;state.overlayOpacity=th.overlayOp;document.getElementById('headlineColor').value=th.hl;document.getElementById('subtextColor').value=th.sub;document.getElementById('overlayColor').value=th.overlay;document.getElementById('overlayOpacity').value=th.overlayOp;document.getElementById('overlayOpacityVal').textContent=th.overlayOp+'%';render()}
+function clearTheme(){document.querySelectorAll('.theme-card').forEach(c=>c.classList.remove('active'));state.theme=null;render();}
+document.getElementById('themesEnabled').onchange=e=>{const wrap=document.getElementById('themesGridWrap');wrap.style.opacity=e.target.checked?'1':'0.35';wrap.style.pointerEvents=e.target.checked?'auto':'none';if(!e.target.checked){clearTheme();}};
 
 // Fonts
 const fontChips=document.getElementById('fontChips');let prevGroup=null;
@@ -995,6 +1039,12 @@ fonts.forEach((f,i)=>{
 });
 
 // Effects
+document.getElementById('textEffectEnabled').onchange=e=>{
+  const wrap=document.getElementById('textEffectWrap');
+  wrap.style.opacity=e.target.checked?'1':'0.35';
+  wrap.style.pointerEvents=e.target.checked?'auto':'none';
+  if(!e.target.checked){state.effect='none';document.querySelectorAll('#effectChips .chip').forEach(c=>c.classList.remove('active'));document.querySelector('#effectChips .chip[data-effect="none"]').classList.add('active');render();}
+};
 document.querySelectorAll('#effectChips .chip').forEach(btn=>{btn.onclick=()=>{document.querySelectorAll('#effectChips .chip').forEach(c=>c.classList.remove('active'));btn.classList.add('active');state.effect=btn.dataset.effect;render()}});
 document.querySelectorAll('#darkChips .chip').forEach(btn=>{btn.onclick=()=>{document.querySelectorAll('#darkChips .chip').forEach(c=>c.classList.remove('active'));btn.classList.add('active');state.darkEffect=btn.dataset.dark;render()}});
 document.querySelectorAll('#lutPanel .lut-btn').forEach(btn=>{btn.onclick=()=>{document.querySelectorAll('#lutPanel .lut-btn').forEach(c=>c.classList.remove('active'));btn.classList.add('active');state.lut=btn.dataset.lut;render()}});
@@ -1013,9 +1063,29 @@ const cinemaGrid=document.getElementById('cinemaGrid');
 CINEMA_PRESETS.forEach(p=>{
   const btn=document.createElement('button');btn.className='cinema-btn';btn.title=p.name;
   btn.style.background=`linear-gradient(135deg,${p.c1},${p.c2},${p.c3})`;btn.innerHTML=`<span>${p.name}</span>`;
-  btn.onclick=()=>{state.overlayColor=p.c1;state.overlayOpacity=45;document.getElementById('overlayColor').value=p.c1;document.getElementById('overlayOpacity').value=45;document.getElementById('overlayOpacityVal').textContent='45%';render()};
+  btn.onclick=()=>{
+    document.querySelectorAll('#cinemaGrid .cinema-btn').forEach(b=>b.style.outline='none');
+    btn.style.outline='2px solid rgba(255,255,255,0.8)';
+    state.overlayColor=p.c1;state.overlayOpacity=45;
+    document.getElementById('overlayColor').value=p.c1;
+    document.getElementById('overlayOpacity').value=45;
+    document.getElementById('overlayOpacityVal').textContent='45%';render()
+  };
   cinemaGrid.appendChild(btn);
 });
+document.getElementById('cinemaPresetsEnabled').onchange=e=>{
+  const wrap=document.getElementById('cinemaPresetsWrap');
+  wrap.style.opacity=e.target.checked?'1':'0.35';
+  wrap.style.pointerEvents=e.target.checked?'auto':'none';
+  if(!e.target.checked)clearCinemaPreset();
+};
+function clearCinemaPreset(){
+  document.querySelectorAll('#cinemaGrid .cinema-btn').forEach(b=>b.style.outline='none');
+  state.overlayColor='#000000';state.overlayOpacity=40;
+  document.getElementById('overlayColor').value='#000000';
+  document.getElementById('overlayOpacity').value=40;
+  document.getElementById('overlayOpacityVal').textContent='40%';render();
+}
 
 // Grad presets
 const gradPresetGrid=document.getElementById('gradPresetGrid');
@@ -1086,6 +1156,26 @@ bindRange('wmImgOpacity','wmImgOpacityVal','wmImgOpacity','%');
 document.getElementById('headline').oninput=e=>{state.headline=e.target.value;render()};
 document.getElementById('subtext').oninput=e=>{state.subtext=e.target.value;render()};
 document.getElementById('extraline').oninput=e=>{state.extraline=e.target.value;render()};
+
+// Text visibility toggles
+state.headlineVisible=true;state.subtextVisible=true;state.extralineVisible=false;
+document.getElementById('headlineVisible').onchange=e=>{
+  state.headlineVisible=e.target.checked;
+  document.getElementById('headline').style.opacity=e.target.checked?'1':'0.35';
+  render();
+};
+document.getElementById('subtextVisible').onchange=e=>{
+  state.subtextVisible=e.target.checked;
+  document.getElementById('subtext').style.opacity=e.target.checked?'1':'0.35';
+  render();
+};
+document.getElementById('extralineVisible').onchange=e=>{
+  state.extralineVisible=e.target.checked;
+  const el=document.getElementById('extraline');
+  el.style.opacity=e.target.checked?'1':'0.4';
+  el.style.pointerEvents=e.target.checked?'auto':'none';
+  render();
+};
 document.getElementById('wmText').oninput=e=>{state.wmText=e.target.value;render()};
 
 document.getElementById('textBgEnabled').onchange=e=>{state.textBgEnabled=e.target.checked;const c=document.getElementById('textBgControls');c.style.opacity=e.target.checked?'1':'0.35';c.style.pointerEvents=e.target.checked?'auto':'none';render()};
@@ -1127,9 +1217,16 @@ function removeWmImg(){state.wmImage=null;const z=document.getElementById('wmImg
 // ─── Text wrap ────────────────────────────────────────────────────────────
 function wrapText(ctx,text,maxWidth){
   if(!text)return[''];
-  const words=text.split(' ');const lines=[];let line='';
-  for(let i=0;i<words.length;i++){const test=line?line+' '+words[i]:words[i];if(ctx.measureText(test).width>maxWidth&&line!==''){lines.push(line);line=words[i]}else line=test}
-  if(line)lines.push(line);return lines.length?lines:[''];
+  // Split on explicit newlines first, then word-wrap each segment
+  const paragraphs=text.split('\n');
+  const lines=[];
+  paragraphs.forEach(para=>{
+    if(!para.trim()){lines.push('');return;}
+    const words=para.split(' ');let line='';
+    for(let i=0;i<words.length;i++){const test=line?line+' '+words[i]:words[i];if(ctx.measureText(test).width>maxWidth&&line!==''){lines.push(line);line=words[i]}else line=test;}
+    if(line)lines.push(line);
+  });
+  return lines.length?lines:[''];
 }
 
 // ─── LUT ─────────────────────────────────────────────────────────────────
@@ -1373,6 +1470,7 @@ function drawText(ctx,w,h){
   function goto_text(){}
 
   // Draw headline
+  if(state.headlineVisible===false){ctx.restore();return;}
   ctx.font=`bold ${hSize}px ${state.font}`;ctx.letterSpacing=ls+'px';
   if(state.effect==='gold'){
     const glg=ctx.createLinearGradient(anchorX-maxW(hLines,ctx)/2,startY,anchorX+maxW(hLines,ctx)/2,startY+hSize);
@@ -1392,7 +1490,7 @@ function drawText(ctx,w,h){
   });
 
   // Subtext
-  if(state.subtext&&state.subtext.trim()){
+  if(state.subtextVisible!==false&&state.subtext&&state.subtext.trim()){
     ctx.shadowColor='transparent';ctx.shadowBlur=0;ctx.font=`${sSize}px ${subFont}`;ctx.letterSpacing=Math.max(0,ls*0.5)+'px';
     applyEffect(state.subtextColor);ctx.fillStyle=state.subtextColor;
     const sStartY=startY+hLines.length*lineH+hSize*0.3;
@@ -1400,7 +1498,7 @@ function drawText(ctx,w,h){
   }
 
   // Extra line
-  if(state.extraline&&state.extraline.trim()){
+  if(state.extralineVisible&&state.extraline&&state.extraline.trim()){
     ctx.shadowColor='transparent';ctx.shadowBlur=0;ctx.font=`${eSize}px ${subFont}`;ctx.letterSpacing='0px';
     const eStartY=startY+hLines.length*lineH+(sLines[0]?sLines.length*sLineH+hSize*0.3:0)+hSize*0.2;
     ctx.fillStyle=state.extralineColor;
@@ -1450,9 +1548,9 @@ function downloadBanner(mode){
   const origCanvas=document.getElementById('bannerCanvas');
   ctx.drawImage(origCanvas,0,0,w,h);
   const link=document.createElement('a');
-  if(mode==='jpg'){link.download='canvas.jpg';link.href=hdCanvas.toDataURL('image/jpeg',0.97)}
-  else if(mode==='webp'){link.download='canvas.webp';link.href=hdCanvas.toDataURL('image/webp',0.97)}
-  else{link.download=mode==='4x'?'canvas_4x.png':'canvas.png';link.href=hdCanvas.toDataURL('image/png',1.0)}
+  if(mode==='jpg'){link.download='ashiq_banner.jpg';link.href=hdCanvas.toDataURL('image/jpeg',0.97)}
+  else if(mode==='webp'){link.download='ashiq_banner.webp';link.href=hdCanvas.toDataURL('image/webp',0.97)}
+  else{link.download=mode==='4x'?'ashiq_banner_4x.png':'ashiq_banner.png';link.href=hdCanvas.toDataURL('image/png',1.0)}
   link.click();
 }
 
